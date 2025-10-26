@@ -1,68 +1,95 @@
-# 🚀 **DevOps Project: ZOMATO Clone App Deployment**
+# 🚀 Zomato Clone Deployment on Kubernetes with Argo CD, Prometheus & Grafana
 
-In this **DevOps project**, I demonstrate how to **deploy a ZOMATO Clone App** using a variety of modern DevOps tools and services.
-
-## 🛠️ Tools & Services Used:
-
-1. **GitHub** ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)
-2. **Jenkins** ![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=flat-square&logo=jenkins&logoColor=white)
-3. **SonarQube** ![SonarQube](https://img.shields.io/badge/SonarQube-4E9BCD?style=flat-square&logo=sonarqube&logoColor=white)
-4. **Docker** ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
-5. **Kubernetes** ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white)
-6. **Prometheus** ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat-square&logo=prometheus&logoColor=white)
-7. **Grafana** ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white)
-8. **ArgoCD** ![ArgoCD](https://img.shields.io/badge/ArgoCD-EF7B4D?style=flat-square&logo=argo&logoColor=white)
-9. **OWASP** ![OWASP](https://img.shields.io/badge/OWASP-000000?style=flat-square&logo=owasp&logoColor=white)
-10. **Trivy** ![Trivy](https://img.shields.io/badge/Trivy-00979D?style=flat-square&logo=trivy&logoColor=white)
+This project demonstrates a **GitOps-driven continuous deployment pipeline** for a **Dockerized Zomato clone application**, orchestrated on **Kubernetes (Minikube)** and monitored with **Prometheus** and **Grafana**.
 
 ---
 
-### Project Stages:
+## 🧩 Project Overview
 
-1. **Stage 1** - Deployment of App to Docker Container
-2. **Stage 2** - Deployment of App to K8S Cluster with Monitoring
+The main goal of this setup was to automate deployment, scaling, and monitoring of a containerized application using modern DevOps tools.  
+The stack includes:
 
----
-
-### 📂 GitHub Repo Link:  
-[**ZOMATO Clone DevOps Project**](#)
-
-### 📹 DevOps Project Video Link:  
-[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=flat-square&logo=youtube&logoColor=white)](https://youtu.be/GyoI6-I68aQ)
-
-### 📺 Docker Playlist Video Link:  
-[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=flat-square&logo=youtube&logoColor=white)](https://www.youtube.com/playlist?list=PLs-PsDpuAuTeNx3OgGQ1QrpNBo-XE6VBh)
+- 🐳 **Docker** – Containerized the Zomato app for consistent deployments  
+- ☸️ **Kubernetes (Minikube)** – Local cluster for orchestration and service management  
+- 🚀 **Argo CD** – Continuous delivery using a GitOps workflow  
+- 📈 **Prometheus** – Metrics collection and node monitoring  
+- 📊 **Grafana** – Visualization and performance dashboards  
 
 ---
 
-## 📂 Other DevOps Projects
+## 🏗️ Architecture Flow
 
-### 🟠 **SWIGGY App Project**:  
-[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=flat-square&logo=youtube&logoColor=white)](https://youtu.be/x55z7rk0NAU)
+1. **Dockerization:**  
+   The application was built into a Docker image and pushed to Docker Hub for portability.  
 
-### 🔵 **SonarQube Video Link**:  
-[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=flat-square&logo=sonarqube&logoColor=white)](https://youtu.be/ScdedztTaAU)
+2. **Kubernetes Deployment:**  
+   The app was deployed into the Minikube cluster using `Deployment` and `Service` YAML manifests.  
+   A **NodePort service** was used to expose the application to external traffic.
 
-### 🟡 **Nexus Video Link**:  
-[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=flat-square&logo=nexus&logoColor=white)](https://youtu.be/opJAfDOCZuI)
+3. **Accessing the App:**  
+   Due to **Minikube’s internal networking restrictions**, direct access via the default Minikube IP and `nodePort` was not possible.  
+   Instead, the app was accessed using a tunneled service via:
+
+   ```bash
+   minikube service zomato
+
+This command automatically exposed the service through a dynamically assigned local port, opening the app in the default browser.
+
+4. **Continuous Deployment with Argo CD:**
+
+- Argo CD was configured to monitor the GitHub repository for changes.
+
+- Each commit to the k8s folder triggered automatic synchronization and deployment in the cluster.
+
+5. **Monitoring Setup:**
+
+- Prometheus scraped metrics from the Node Exporter deployed in the cluster.
+
+- Grafana visualized CPU, memory, and pod activity metrics using Prometheus as the data source.
+
+## ⚙️ Technologies Used
+
+| 🧩 **Tool / Platform**       | 🎯 **Purpose** |
+|------------------------------|----------------|
+| 🐳 **Docker**                | 🧱 Containerization |
+| ☸️ **Kubernetes (Minikube)** | 🖥️ Local cluster orchestration |
+| 🚀 **Argo CD**               | 🔁 Continuous deployment (GitOps) |
+| 📊 **Prometheus**            | 📈 Metrics collection |
+| 📉 **Grafana**               | 🧭 Data visualization |
+| 🧠 **Node Exporter**         | ⚙️ Node-level metric exporter |
+
+## 🧠 Key Learnings
+
+- Implemented GitOps-based continuous delivery using Argo CD
+
+- Gained experience in observability and monitoring with Prometheus + Grafana
+
+- Learned how Minikube handles internal networking and how to tunnel access using minikube service
+
+- Built a complete DevOps lifecycle: containerization → orchestration → monitoring
+
+## 🖥️ Accessing the Application
+
+After successful deployment, run the following command to access the frontend app:
+
+```bash
+minikube service zomato
+
+```
+
+## 🏁 Conclusion
+
+This project highlights the **end-to-end automation** of application deployment and monitoring using modern **DevOps tools**.  
+It demonstrates how **Docker**, **Kubernetes**, and **Argo CD** integrate seamlessly to enable **reliable**, **automated**, and **observable systems** — all running locally on **Minikube**.  
 
 ---
 
-## Connect with me on LinkedIn:  
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/kastro-kiran/)
+### 🧩 Key Achievements
 
-## Join the WhatsApp Group for DevOps technical discussions!
-[![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://chat.whatsapp.com/EGw6ZlwUHZc82cA0vXFnwm) 
-
----
-
-### Feedback Request:  
-
-After deploying the app, please share your opinion on LinkedIn along with the Project link and tag me on LinkedIn. Help the video reach wider DevOps enthusiasts.
+✅ **GitOps-driven pipeline** for automatic Kubernetes deployments using Argo CD  
+📊 **Full observability** and real-time monitoring with Prometheus & Grafana  
+🌐 **Deep understanding** of networking nuances within local Kubernetes clusters (and how Minikube tunnels ports dynamically)  
 
 ---
 
-## Happy learning!  
-<img src="https://media.licdn.com/dms/image/v2/D5603AQHJB_lF1d9OSw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1718971147172?e=1735776000&v=beta&t=HC_e0eOufPvf8XQ0P7iI9GDm9hBSIh5FwQaGsL_8ivo" alt="Kastro Profile Image" width="100" height="100" style="border-radius:50%;">
-
-KASTRO KIRAN V
+💡 *This project encapsulates the full DevOps lifecycle — from containerization to continuous delivery and observability — bringing everything together in one cohesive workflow.*

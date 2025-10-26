@@ -24,10 +24,10 @@ The stack includes:
 
 2. **Kubernetes Deployment:**  
    The app was deployed into the Minikube cluster using `Deployment` and `Service` YAML manifests.  
-   A **NodePort service** was used to expose the application to external traffic.
+   A NodePort service was used to expose the application to external traffic.
 
 3. **Accessing the App:**  
-   Due to **Minikube’s internal networking restrictions**, direct access via the default Minikube IP and `nodePort` was not possible.  
+   Due to Minikube’s internal networking restrictions, direct access via the default Minikube IP and `nodePort` was not possible.  
    Instead, the app was accessed using a tunneled service via:
 
    ```bash
